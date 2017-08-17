@@ -1,0 +1,39 @@
+{
+  "name": "inter.js",
+  "version": "0.0.1",
+  "description": "A toolkit for building interactive things with JavaScript.",
+  "main": "src/inter.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inconceivablevizzini/interactivejs.git"
+  },
+  "keywords": [],
+  "author": "Derek Ford <inconceivablevizzini@gmail.com> (http://dford.online/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https//github.com/inconceivablevizzini/interactivejs/issues"
+  },
+  "homepage": "https://inconceivablevizzini.github.io/interactivejs",
+  "scripts": {
+    "test": "ava",
+    "graph": "babel-node --presets env src/graph-easing.js"
+  },
+  "devDependencies": {
+    "ava": "^0.22.0",
+    "babel-core": "^6.25.0",
+    "babel-preset-env": "^1.6.0",
+    "cli-chart": "^0.3.1"
+  },
+  "ava": {
+    "verbose": true,
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  },
+  "babel": {
+    "presets": [
+      "env"
+    ]
+  }
+}
