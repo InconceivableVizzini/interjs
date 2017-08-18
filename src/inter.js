@@ -79,14 +79,14 @@ class Maths {
     let h = +(k*t);
     return +(h*Math.exp(1.0-h));
   }
-  static CubicPulse(t, p, k){
+  static CubicPulse(t, p, k) {
     t = +(t);
     p = +(p);
     k = +(k);
     t = +(Math.abs(+(t-p)));
     if (t>k) return 0.0;
     t /= k;
-    return +(1.0 - t*t*(3.0-2.0*t));
+    return +(1.0-t*t*(3.0-2.0*t));
   }
 }
 class FSM {

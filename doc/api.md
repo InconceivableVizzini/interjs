@@ -46,9 +46,9 @@ Run of the mill easing functions.
 
 `Maths.Impulse(t, k)`
 
-Impulse provides a value that reaches a maximum of `1.0` quickly then slowly deteriorates. The maximum is reached at `t=1/k`, meaning small values of `k` stretch the pulse while large values compress it.
+`Impulse` provides a value that reaches a maximum of `1.0` quickly then slowly deteriorates. The maximum is reached at `t=1/k`, meaning small values of `k` stretch the pulse while large values compress it.
 
 `Maths.CubicPulse(t, p, k)`
 
-CubicPulse provides a value that increases to a maximum of `1.0` then decreases symmetrically. The pulse can be shifted by a phase, `p`, and stretched by a proportion, `k`.
+`CubicPulse` provides a value that increases to a maximum of `1.0` then decreases symmetrically. The pulse can be shifted by a phase, `p`, and stretched by a proportion, `k`.
 
