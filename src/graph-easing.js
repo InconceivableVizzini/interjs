@@ -22,6 +22,14 @@ function graphEaseFn(ease, easeFn) {
   graph.draw();
 }
 
+function graphSymmetricEaseFn(ease, easeFn) {
+  for (let k = 0.5; k<=3.5; k+=0.5) {
+    graphEaseFn(ease+', k='+k, function(i) {
+      return easeFn(-1*(0.91-i*2), k);
+    });
+  }
+}
+
 graphEaseFn('NoEasing', Maths.NoEasing);
 graphEaseFn('QuadraticIn', Maths.QuadraticIn);
 graphEaseFn('QuadraticOut', Maths.QuadraticOut);
@@ -48,5 +56,10 @@ graphEaseFn('CubicPulse, p=1.0 k=0.5', function(i) { return Maths.CubicPulse(i, 
 graphEaseFn('CubicPulse, p=0.5 k=0.1', function(i) { return Maths.CubicPulse(i, 0.5, 0.1); });
 graphEaseFn('CubicPulse, p=0.5 k=0.5', function(i) { return Maths.CubicPulse(i, 0.5, 0.5); });
 graphEaseFn('CubicPulse, p=0.5 k=0.9', function(i) { return Maths.CubicPulse(i, 0.5, 0.9); });
+graphSymmetricEaseFn('SymmetricPowerCurveA', Maths.SymmetricPowerCurveA);
+graphSymmetricEaseFn('SymmetricPowerCurveB', Maths.SymmetricPowerCurveB);
+graphSymmetricEaseFn('SymmetricPowerCurveC', Maths.SymmetricPowerCurveC);
+graphSymmetricEaseFn('SymmetricPowerCurveD', Maths.SymmetricPowerCurveD);
+graphSymmetricEaseFn('SymmetricPowerCurveE', Maths.SymmetricPowerCurveE);
 
 process.exit()
