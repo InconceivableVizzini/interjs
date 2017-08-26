@@ -1,5 +1,11 @@
 import test from 'ava';
-import {Maths} from './src/inter.js';
+import Now from './src/time.js';
+import {Maths, Animation, Interpolation} from './src/inter.js';
+
+let animation = new Animation();
+let obj = {x: 0, y: 0};
+let inter = new Interpolation(obj);
+inter.interpolate({x: 50, y: 50}, 1000);
 
 function testEaseInBounds(t, eased) {
   t.true(eased>=0.0 && eased<=1.0);
@@ -20,6 +26,37 @@ function testSymmetricEasingFn(t, fn) {
     }
   }
 }
+
+
+
+
+test('Add interpolation to animation', function(t) {
+  t.plan(2);
+  t.is(animation.interpolations.length, 0);
+  animation.add(inter);
+  t.is(animation.interpolations.length, 1);
+});
+test('Added interpolations are not active', function(t) {
+  t.plan(1);
+  t.is(animation.active_interpolations.length, 0);
+});
+test('Remove interpolation from animation', function(t) {
+  t.plan(1);
+  animation.remove(inter);
+  t.is(animation.interpolations.length, 0);
+});
+test('Interpolations become active when played', function(t) {
+  t.plan(2);
+  animation.play(inter);
+  t.is(animation.interpolations.length, 1);
+  t.is(animation.active_interpolations.length, 1);
+});
+test('Interpolations are removed from animations when complete', function(t) {
+  t.plan(2);
+  animation.update(Now()+1001);
+  t.is(animation.interpolations.length, 0);
+  t.is(animation.active_interpolations.length, 0);
+});
 test('Maths.isPowerOfTwo', function(t) {
   t.plan(7);
   t.true(Maths.isPowerOfTwo(0));

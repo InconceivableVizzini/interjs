@@ -1,4 +1,4 @@
-import {Maths} from './inter.js';
+import {Maths} from '../src/inter.js';
 let resolution = .101
 let Chart = require('cli-chart');
 
