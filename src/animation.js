@@ -6,8 +6,7 @@ class Animation {
     this.interpolations = [];
     this.active_interpolations = [];
   }
-  update(now = Now()) {
-    
+  update(now = Now()) {    
     for (let inter_index of this.active_interpolations) {
       if (!this.interpolations[inter_index].update(now)) {
 	this.remove(this.interpolations[inter_index])
@@ -65,8 +64,7 @@ class Interpolation {
     let keyframe = this.keyframes[this.active]||false;
     let prevKeyframe = this.keyframes[this.active - 1]||false;
     if (!keyframe) return;
-    let progress = (now-keyframe.started)/keyframe.duration;
-    if (progress>1) progress = 1;
+    let progress = Maths.clip01((now-keyframe.started)/keyframe.duration);
     for (let prop in keyframe.properties) {
       let start = this.startingProps[prop] || 0.0;
       if (prevKeyframe !== false &&
