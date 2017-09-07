@@ -1,5 +1,11 @@
 import test from 'ava';
-import {Maths} from './src/inter.js';
+import Now from './src/time.js';
+import {Maths, Animation, Interpolation} from './src/inter.js';
+
+let animation = new Animation();
+let obj = {x: 0, y: 0};
+let inter = new Interpolation(obj);
+inter.interpolate({x: 50, y: 50}, 1000);
 
 function testEaseInBounds(t, eased) {
   t.true(eased>=0.0 && eased<=1.0);
@@ -12,6 +18,45 @@ function testEasingFn(t, fn) {
   }
 }
 
+function testSymmetricEasingFn(t, fn) {
+  t.plan(70);
+  for (let i=0; i<1.0; i+=.101) {
+    for (let k = 0.5; k<=3.5; k+=0.5) {
+      testEaseInBounds(t, fn(-1*(0.9-i*2), k));
+    }
+  }
+}
+
+
+
+
+test('Add interpolation to animation', function(t) {
+  t.plan(2);
+  t.is(animation.interpolations.length, 0);
+  animation.add(inter);
+  t.is(animation.interpolations.length, 1);
+});
+test('Added interpolations are not active', function(t) {
+  t.plan(1);
+  t.is(animation.active_interpolations.length, 0);
+});
+test('Remove interpolation from animation', function(t) {
+  t.plan(1);
+  animation.remove(inter);
+  t.is(animation.interpolations.length, 0);
+});
+test('Interpolations become active when played', function(t) {
+  t.plan(2);
+  animation.play(inter);
+  t.is(animation.interpolations.length, 1);
+  t.is(animation.active_interpolations.length, 1);
+});
+test('Interpolations are removed from animations when complete', function(t) {
+  t.plan(2);
+  animation.update(Now()+1001);
+  t.is(animation.interpolations.length, 0);
+  t.is(animation.active_interpolations.length, 0);
+});
 test('Maths.isPowerOfTwo', function(t) {
   t.plan(7);
   t.true(Maths.isPowerOfTwo(0));
@@ -140,4 +185,29 @@ test('Maths.CubicPulse', function(t) {
   t.is(Maths.CubicPulse(0.0, 1.0, 0.5), 0);
   t.is(Maths.CubicPulse(0.5, 1.0, 0.5), 0);
   t.is(Maths.CubicPulse(1.0, 1.0, 0.5), 1);
+});
+test('Maths.PowerCurve', function(t) {
+  t.plan(6);
+  t.is(Maths.PowerCurve(0.0, 2.0, 1.0), 0);
+  t.is(parseFloat(Maths.PowerCurve(0.2, 2.0, 1.0).toFixed(3)), 0.216);
+  t.is(parseFloat(Maths.PowerCurve(0.4, 2.0, 1.0).toFixed(3)), 0.648);
+  t.is(Maths.PowerCurve(0.6, 2.0, 1.0), 0.972);
+  t.is(Maths.PowerCurve(0.8, 2.0, 1.0), 0.864);
+  t.is(Maths.PowerCurve(1.0, 2.0, 1.0), 0);
+});
+
+test('Maths.SymmetricPowerCurveA', function(t) {
+  testSymmetricEasingFn(t, Maths.SymmetricPowerCurveA);
+});
+test('Maths.SymmetricPowerCurveB', function(t) {
+  testSymmetricEasingFn(t, Maths.SymmetricPowerCurveB);
+});
+test('Maths.SymmetricPowerCurveC', function(t) {
+  testSymmetricEasingFn(t, Maths.SymmetricPowerCurveC);
+});
+test('Maths.SymmetricPowerCurveD', function(t) {
+  testSymmetricEasingFn(t, Maths.SymmetricPowerCurveD);
+});
+test('Maths.SymmetricPowerCurveE', function(t) {
+  testSymmetricEasingFn(t, Maths.SymmetricPowerCurveE);
 });
