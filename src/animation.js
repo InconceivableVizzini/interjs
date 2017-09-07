@@ -31,6 +31,10 @@ class Animation {
     let j = this.active_interpolations.indexOf(i);
     if (i > -1) this.interpolations.splice(i, 1);
     if (j > -1) this.active_interpolations.splice(j, 1);
+
+    for (let k in this.active_interpolations) {
+      if (this.active_interpolations[k] > i) --this.active_interpolations[k];
+    }
   }
   add(inter) {
     let i = this.interpolations.indexOf(inter);
