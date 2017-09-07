@@ -77,7 +77,7 @@ This method is usually called by `Animation`, but you may update interpolations 
 
 `Interpolation.interpolate(properties, duration, easing=Maths.NoEasing, interpolation=Maths.lerp)`
 
-Constructs a new keyframe for the desired interpolation. Calling this method multiple times will continue to push new kewframes onto the current interpolation. Once the current active keyframe reaches 100% progress through its motion, the next keyframe will become active.
+Constructs a new keyframe for the desired interpolation. Calling this method multiple times will continue to push new keyframes onto the current interpolation. Once the current active keyframe reaches 100% progress through its motion, the next keyframe will become active.
 
 `Interpolation.keyframe()`
 
