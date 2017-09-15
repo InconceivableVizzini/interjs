@@ -90,7 +90,6 @@ test('Interpolation.update() on looping interpolations returns true if out of ke
   t.plan(1);
   inter = new Interpolation(obj);
   inter.interpolate({}, 1);
-  inter.interpolate({}, 1);
   inter.loop = -1;
   t.is(inter.update(Now()+10), true);
 });
