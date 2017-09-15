@@ -27,9 +27,6 @@ function testSymmetricEasingFn(t, fn) {
   }
 }
 
-
-
-
 test('Add interpolation to animation', function(t) {
   t.plan(2);
   t.is(animation.interpolations.length, 0);
@@ -56,6 +53,45 @@ test('Interpolations are removed from animations when complete', function(t) {
   animation.update(Now()+1001);
   t.is(animation.interpolations.length, 0);
   t.is(animation.active_interpolations.length, 0);
+});
+test('Looping interpolations are not removed from animations when complete', function(t) {
+  t.plan(4)
+
+  inter = new Interpolation(obj);
+  inter.interpolate({x: 50, y: 50}, 1000);
+  inter.loop = -1;
+
+  animation.play(inter);
+  animation.update(Now()+1001);
+  t.is(animation.interpolations.length, 1);
+  t.is(animation.active_interpolations.length, 1);
+  animation.remove(inter);
+  t.is(animation.interpolations.length, 0);
+  t.is(animation.active_interpolations.length, 0);
+});
+test('Interpolations may have multiple keyframes', function(t) {
+  t.plan(2);
+
+  inter = new Interpolation(obj);
+  inter.interpolate({}, 1);
+  t.is(inter.keyframes.length, 1);
+  inter.interpolate({}, 1);
+  t.is(inter.keyframes.length, 2);
+});
+test('Interpolation.update() returns true when not out of keyframes', function(t) {
+  t.plan(1);
+  t.is(inter.update(Now()+10), true);
+});
+test('Interpolation.update() on non-looping interpolations returns false if out of keyframes', function(t) {
+  t.plan(1);
+  t.is(inter.update(Now()+10), false);
+});
+test('Interpolation.update() on looping interpolations returns true if out of keyframes', function(t) {
+  t.plan(1);
+  inter = new Interpolation(obj);
+  inter.interpolate({}, 1);
+  inter.loop = -1;
+  t.is(inter.update(Now()+10), true);
 });
 test('Maths.isPowerOfTwo', function(t) {
   t.plan(7);

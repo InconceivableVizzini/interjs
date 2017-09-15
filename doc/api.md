@@ -1,6 +1,6 @@
-# inter.js API
+# inter.js
 
-The inter.js API provides utilities in three areas, generally -- statefulness, animation, and mathematics.
+The inter.js library provides utilities in three areas, generally -- statefulness, animation, and mathematics.
 
 * `FSM` provides a Finite State Machine, so that objects have, and may change, state.
 * `Animation`, and `Interpolation` allow objects to have animations that update their properties over time.
@@ -43,11 +43,11 @@ animation.play(interSkew);
 animationFrameCB();
 
 let animationFrameCB = function() {
-    animation.update();
+  requestAnimationFrame(animationFrameCB);
 
-    console.log('{x: '+ objectToInterpolate.x +', skew: '+ objectToInterpolate.skew +'}');
+  animation.update();
 
-    requestAnimationFrame(animationFrameCB);
+  console.log('{x: '+ objectToInterpolate.x +', skew: '+ objectToInterpolate.skew +'}');
 }
 ```
 
@@ -71,9 +71,13 @@ Removes the provided interpolation.
 
 Adds the provided interpolation if it is new. The added interpolation remains inactive.
 
+`Interpolation.loop`
+
+This property describes how many times the interpolation will progress through all of its keyframes before update() returns false. A `loop` of `0`, the default, will not loop. Negative values will loop indefinitely.
+
 `Interpolation.update(now)`
 
-This method is usually called by `Animation`, but you may update interpolations manually if desired. See `Animation.update(now = Now())`.
+This method is usually called by `Animation`, but you may update interpolations manually if desired. See `Animation.update(now = Now())`. Once the motion of a keyframe is complete the next keyframe will become active and update() will return true. False will be returned when update() runs out of keyframes.
 
 `Interpolation.interpolate(properties, duration, easing=Maths.NoEasing, interpolation=Maths.lerp)`
 
